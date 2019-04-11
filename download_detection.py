@@ -93,11 +93,14 @@ def dl_and_cut(vid, data, d_set_dir):
             w = float(w)
             h = float(h)
             x1, x2, y1, y2 = row.values[6:10]
+
             x1 = float(x1) * w
             x2 = float(x2) * w
             y1 = float(y1) * h
             y2 = float(y2) * h
 
+
+            x1, x2, y1, y2 = np.array([x1,x2,y1,y2],int)
             # x1 = int(x1*w)
             # x2 = int(x2*w)
             # y1 = int(y1*h)
@@ -105,6 +108,7 @@ def dl_and_cut(vid, data, d_set_dir):
             # cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 2)
             i += 1
 
+            if x1 < 0: continue
             # Make the class directory if it doesn't exist yet
             class_dir = d_set_dir+str(row.values[2])
             check_call(['mkdir', '-p', class_dir])
@@ -117,7 +121,7 @@ def dl_and_cut(vid, data, d_set_dir):
 
     # Remove the temporary video
     os.remove(d_set_dir+'/'+vid+'_temp.mp4')
-    return i, vid
+    return vid
 
 # Parse the annotation csv file and schedule downloads and cuts
 def parse_and_sched(dl_dir='videos', num_threads=4):
@@ -159,6 +163,8 @@ def parse_and_sched(dl_dir='videos', num_threads=4):
                             barLength = 40)
 
         print( d_set+': All videos downloaded' )
+        # vid = vids[1]
+        # dl_and_cut(vid,  df[df['youtube_id']==vid], d_set_dir)
 
 if __name__ == '__main__':
     # Use the directory `videos` in the current working directory by
