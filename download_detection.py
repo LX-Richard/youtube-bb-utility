@@ -71,7 +71,7 @@ def dl_and_cut(vid, data, d_set_dir):
         # Get time stamps (in seconds) for every frame in the video
         # This is necessary because some video from YouTube come at 29.99 fps,
         # other at 30fps, other at 24fps
-        timestamps = [i/float(fps) for i in xrange(int(total_f))]
+        timestamps = [i/float(fps) for i in range(int(total_f))]
         labeled_timestamps = data['timestamp_ms'].values / 1000
 
         # Get nearest frame for every labeled timestamp in CSV file
@@ -87,8 +87,15 @@ def dl_and_cut(vid, data, d_set_dir):
             ret, image = capture.read()
 
             # Uncomment lines below to print bounding boxes on downloaded images
-            # w, h = capture.get(3),capture.get(4)
-            # x1, x2, y1, y2 = row.values[6:10]
+            w, h = capture.get(3),capture.get(4)
+            w = float(w)
+            h = float(h)
+            x1, x2, y1, y2 = row.values[6:10]
+            x1 = float(x1) * w
+            x2 = float(x2) * w
+            y1 = float(y1) * h
+            y2 = float(y2) * h
+
             # x1 = int(x1*w)
             # x2 = int(x2*w)
             # y1 = int(y1*h)
@@ -102,7 +109,7 @@ def dl_and_cut(vid, data, d_set_dir):
 
             # Save the extracted image
             frame_path = class_dir+'/'+row.values[0]+'_'+str(row.values[1])+\
-                '_'+str(row.values[2])+'_'+str(row.values[4])+'.jpg'
+                    '_'+str(row.values[2])+'_'+str(row.values[4])+'_{:d}_{:d}_{:d}_{:d}.jpg'.format(x1,y1,x2,y2)
             cv2.imwrite(frame_path, image)
         capture.release()
 
