@@ -16,7 +16,6 @@ import numpy as np
 
 # The data sets to be downloaded
 d_sets = ['yt_bb_detection_validation', 'yt_bb_detection_train']
-d_sets = ['yt_bb_detection_train']
 
 # Column names for detection CSV files
 col_names = ['youtube_id', 'timestamp_ms','class_id','class_name',
@@ -108,7 +107,7 @@ def dl_and_cut(vid, data, d_set_dir):
             # cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 2)
             i += 1
 
-            if x1 < 0: continue
+            if x1 < 0 or image is None: continue
             # Make the class directory if it doesn't exist yet
             class_dir = d_set_dir+str(row.values[2])
             check_call(['mkdir', '-p', class_dir])
