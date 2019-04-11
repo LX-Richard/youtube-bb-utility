@@ -115,7 +115,7 @@ def dl_and_cut(vid, data, d_set_dir):
 
     # Remove the temporary video
     os.remove(d_set_dir+'/'+vid+'_temp.mp4')
-    return vid
+    return i, vid
 
 # Parse the annotation csv file and schedule downloads and cuts
 def parse_and_sched(dl_dir='videos', num_threads=4):
