@@ -1,7 +1,4 @@
 futures
 youtube-dl
-imageio
-moviepy
-ffmpy
 pandas
 numpy
