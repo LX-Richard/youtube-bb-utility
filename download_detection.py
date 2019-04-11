@@ -16,6 +16,7 @@ import numpy as np
 
 # The data sets to be downloaded
 d_sets = ['yt_bb_detection_validation', 'yt_bb_detection_train']
+d_sets = ['yt_bb_detection_train']
 
 # Column names for detection CSV files
 col_names = ['youtube_id', 'timestamp_ms','class_id','class_name',
@@ -81,9 +82,10 @@ def dl_and_cut(vid, data, d_set_dir):
             indexes.append(frame_index)
 
         i = 0
+        capture.set(cv2.CAP_PROP_FRAME_COUNT, total_f)
         for index, row in data.iterrows():
             # Get the actual image corresponding to the frame
-            capture.set(1,indexes[i])
+            capture.set(cv2.CAP_PROP_POS_FRAMES,indexes[i])
             ret, image = capture.read()
 
             # Uncomment lines below to print bounding boxes on downloaded images
