@@ -43,7 +43,7 @@ This repo was tested on Ubuntu 16.04 and Python 3.6.
   + `pip install -r requirements.txt` in this repo's directory.
   + `conda install -c anaconda opencv`. 
 
-Finally `cv2.VideoCapture` is working this way! See [the long-standing problem](https://github.com/ContinuumIO/anaconda-issues/issues/121#issuecomment-395568841) with installing OpenCV using Anaconda.
+Finally `cv2.VideoCapture` is working this way! See [the long-standing problem](https://github.com/ContinuumIO/anaconda-issues/issues/121) with installing OpenCV using Anaconda.
 
 3. Install `wget` through your package manager.
 
