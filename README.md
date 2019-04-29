@@ -16,6 +16,7 @@ Bounding box information is only available every second, so that is about 19 JPG
 per segment. However, the videos are encoded
 at various framerates (I've found 24fps, 29.99fps, 30fps, ...).
 That is why this script uses OpenCV to extract frames from the closest timestamps that have been labelled. 
+
 *You can run `visualise_sample.py` first to check if everything is running okay before running the main script.*
 
 This script was originally written by [Mark Buckler](https://github.com/mbuckler/youtube-bb).
@@ -23,8 +24,8 @@ The YouTube BoundingBoxes dataset was created and curated by Esteban Real,
 Jonathon Shlens, Stefano Mazzocchi, Xin Pan, and Vincent Vanhoucke.
 The dataset web page is [here](https://research.google.com/youtube-bb/index.html) and the
 accompanying whitepaper is [here](https://arxiv.org/abs/1702.00824).
-This fork was written by [Mehdi Shibahara](https://github.com/mehdi-shiba/youtube-bb-utility).
-*Further modified by Yiming Lin.*
+
+This fork was written by [Mehdi Shibahara](https://github.com/mehdi-shiba/youtube-bb-utility) and modified by Yiming Lin.
 
 ## Naming format
 Different from other forks, this fork encodes the bounding box information directly into the file names, so the naming format of each image is
@@ -42,7 +43,7 @@ This repo was tested on Ubuntu 16.04 and Python 3.6.
   + `pip install -r requirements.txt` in this repo's directory.
   + `conda install -c anaconda opencv`. 
 
-Finally `cv2.VideoCapture` is working this way![See the long-standing problem](https://github.com/ContinuumIO/anaconda-issues/issues/121#issuecomment-395568841) with installing OpenCV using Anaconda.
+Finally `cv2.VideoCapture` is working this way! See [the long-standing problem](https://github.com/ContinuumIO/anaconda-issues/issues/121#issuecomment-395568841) with installing OpenCV using Anaconda.
 
 3. Install `wget` through your package manager.
 
