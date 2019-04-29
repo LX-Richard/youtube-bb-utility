@@ -1,9 +1,6 @@
-
-**Forked from mbuckler/youtube-bb. Thank you for the original work!**
-
 # YouTube BoundingBox
 
- ![Alt text](sample/ABQJpBm9hP8_7000_7_0.jpg?raw=true "Sample image")
+ ![Alt text](sample/eWyI5lsY0jg_07_0000_00178000_188_50_408_187.jpg?raw=true "Sample image")
 
 This repo contains helpful scripts for using the [YouTube BoundingBoxes](
 https://research.google.com/youtube-bb/index.html) 
@@ -19,38 +16,38 @@ Bounding box information is only available every second, so that is about 19 JPG
 per segment. However, the videos are encoded
 at various framerates (I've found 24fps, 29.99fps, 30fps, ...).
 That is why this script uses OpenCV to extract frames from the closest timestamps that have been labelled. 
-*You can uncomment lines 90 to 96 if you want to print the bounding boxes on the downloaded images.
-I used that to verify that my calculations were ok.*
+*You can run `visualise_sample.py` first to check if everything is running okay before running the main script.*
 
-This script was originally written by Mark Buckler.
+This script was originally written by [Mark Buckler](https://github.com/mbuckler/youtube-bb).
 The YouTube BoundingBoxes dataset was created and curated by Esteban Real,
 Jonathon Shlens, Stefano Mazzocchi, Xin Pan, and Vincent Vanhoucke.
 The dataset web page is [here](https://research.google.com/youtube-bb/index.html) and the
 accompanying whitepaper is [here](https://arxiv.org/abs/1702.00824).
-*This fork was written by Mehdi Shibahara*
+This fork was written by [Mehdi Shibahara](https://github.com/mehdi-shiba/youtube-bb-utility).
+*Further modified by Yiming Lin.*
 
+## Naming format
+Different from other forks, this fork encodes the bounding box information directly into the file names, so the naming format of each image is
+
+`[YOUTUBE_ID]_[CLASS_ID]_[OBJECT_ID]_[TIMESTAMP]_[X_TOP_LEFT]_[Y_TOP_LEFT]_[X_BOTTOM_RIGHT]_[Y_BOTTOM_RIGHT].jpg`
+
+Check [here](https://github.com/yl1991/youtube-bb-utility/blob/9c3e4b7a31dd05b9a8883141e46cd7cff160c1fd/visualise_sample.py#L43) for an example of how to easily get the bounding box from the filename.
 
 ## Installing the dependencies
+This repo was tested on Ubuntu 16.04 and Python 3.6.
 
 1. Clone this repository.
 
 2. Install majority of dependencies by running 
   + `pip install -r requirements.txt` in this repo's directory.
-  + Install opencv: using conda or build from source
+  + `conda install -c anaconda opencv`. 
 
-3. Install wget, and [youtube-dl](https://github.com/rg3/youtube-dl)
-through your package manager.
-For most platforms this should be straightforward, but for 
-Ubuntu 14.04 users you will need to update your apt-get repository 
-before being able to install ffmpeg as [shown
-here](https://www.faqforge.com/linux/how-to-install-ffmpeg-on-ubuntu-14-04/).
+Finally `cv2.VideoCapture` is working this way![See the long-standing problem](https://github.com/ContinuumIO/anaconda-issues/issues/121#issuecomment-395568841) with installing OpenCV using Anaconda.
 
-Some small tweaks may be needed for different software environments.
-These scripts were developed and tested on Ubuntu 16.04.
+3. Install `wget` through your package manager.
 
 ## Running the scripts
 
-Note: This script was developed with Python 2.7.
 
 ### Download and decode
 
@@ -60,6 +57,12 @@ cuts these videos down to the range in which they have been
 annotated, then extract only the frames with label.
 Parallel video downloads are supported so that you can
 saturate your download bandwith even though YouTube throttles per-video.
+*The frames with `absent` annotations are not decoded.*
 
 Run `python download_detection.py [VIDEO_DIR] [NUM_THREADS]` to download the dataset into the specified
 directory.
+
+## Note
+* Some videos may become unavailable as time goes on
+* In my test, there are 200,600 valid videos, resulting in 4,771,439 decoded images.
+* The size of the decoded dataset is around 340 GB.
