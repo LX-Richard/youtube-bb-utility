@@ -4,11 +4,8 @@
 from __future__ import unicode_literals
 from subprocess import check_call
 from concurrent import futures
-import subprocess
 import youtube_dl
-import socket
 import os
-import io
 import sys
 import cv2
 import pandas as pd
@@ -100,11 +97,6 @@ def dl_and_cut(vid, data, d_set_dir):
 
 
             x1, x2, y1, y2 = np.array([x1,x2,y1,y2],int)
-            # x1 = int(x1*w)
-            # x2 = int(x2*w)
-            # y1 = int(y1*h)
-            # y2 = int(y2*h)
-            # cv2.rectangle(image, (x1, y1), (x2, y2), (0,0,255), 2)
             i += 1
 
             if x1 < 0 or image is None: continue
@@ -112,9 +104,13 @@ def dl_and_cut(vid, data, d_set_dir):
             class_dir = d_set_dir+str(row.values[2])
             check_call(['mkdir', '-p', class_dir])
 
+            youtube_id = row.values[0]
+            cls_id = row.values[2]
+            obj_id = row.values[4]
+            ts_= row.values[1]
             # Save the extracted image
-            frame_path = class_dir+'/'+row.values[0]+'_'+str(row.values[1])+\
-                    '_'+str(row.values[2])+'_'+str(row.values[4])+'_{:d}_{:d}_{:d}_{:d}.jpg'.format(x1,y1,x2,y2)
+            frame_path = class_dir+'/{:s}_{:0>2}_{:0>4}_{:0>8}_{:d}_{:d}_{:d}_{:d}.jpg'.format(
+                    youtube_id, cls_id, obj_id, ts_, x1,y1,x2,y2)
             cv2.imwrite(frame_path, image)
         capture.release()
 
@@ -138,10 +134,11 @@ def parse_and_sched(dl_dir='videos', num_threads=4):
         check_call(['mkdir', '-p', d_set_dir])
 
         # Download & extract the annotation list
-        print (d_set+': Downloading annotations...')
-        check_call(['wget', web_host+d_set+'.csv.gz'])
-        print (d_set+': Unzipping annotations...')
-        check_call(['gzip', '-d', '-f', d_set+'.csv.gz'])
+        if not os.path.isfile(d_set+'.csv'):
+            print (d_set+': Downloading annotations...')
+            check_call(['wget', web_host+d_set+'.csv.gz'])
+            print (d_set+': Unzipping annotations...')
+            check_call(['gzip', '-d', '-f', d_set+'.csv.gz'])
 
         # Parse csv data using pandas
         print (d_set+': Parsing annotations into clip data...')
@@ -162,8 +159,6 @@ def parse_and_sched(dl_dir='videos', num_threads=4):
                             barLength = 40)
 
         print( d_set+': All videos downloaded' )
-        # vid = vids[1]
-        # dl_and_cut(vid,  df[df['youtube_id']==vid], d_set_dir)
 
 if __name__ == '__main__':
     # Use the directory `videos` in the current working directory by

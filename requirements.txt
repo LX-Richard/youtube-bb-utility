@@ -2,3 +2,4 @@ futures
 youtube-dl
 pandas
 numpy
+opencv-python
