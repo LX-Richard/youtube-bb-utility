@@ -35,7 +35,7 @@ Different from other forks, this fork encodes the bounding box information direc
 Check [here](https://github.com/yl1991/youtube-bb-utility/blob/9c3e4b7a31dd05b9a8883141e46cd7cff160c1fd/visualise_sample.py#L43) for an example of how to easily get the bounding box from the filename.
 
 ## Installing the dependencies
-This repo was tested on Ubuntu 16.04 and Python 3.6.
+This repo was developed on Ubuntu 16.04 using conda 4.6.7 and Python 3.6.
 
 1. Clone this repository.
 
